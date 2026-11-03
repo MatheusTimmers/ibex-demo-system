@@ -38,7 +38,7 @@ module ibex_demo_system #(
   input  logic        td_i,     // JTAG test data input pad
   output logic        td_o      // JTAG test data output pad
 );
-  localparam logic [31:0] MEM_SIZE      = 128 * 1024; // 128 KiB
+  localparam logic [31:0] MEM_SIZE      = 64 * 1024;
   localparam logic [31:0] MEM_START     = 32'h00100000;
   localparam logic [31:0] MEM_MASK      = ~(MEM_SIZE-1);
 
@@ -235,6 +235,9 @@ module ibex_demo_system #(
 
   ibex_top #(
     .RegFile         ( RegFile                                 ),
+    .PMPEnable       ( 1'b1                                    ),
+    .PMPGranularity  ( 0                                       ),
+    .PMPNumRegions   ( 4                                       ),
     .MHPMCounterNum  ( 10                                      ),
     .RV32M           ( ibex_pkg::RV32MFast                     ),
     .RV32B           ( ibex_pkg::RV32BNone                     ),
