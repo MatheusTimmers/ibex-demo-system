@@ -25,6 +25,9 @@ lint_off -rule PINMISSING -file "*pulp_riscv_dbg*"
 lint_off -rule UNUSED -file "*ibex_register_file_fpga*"
 
 lint_off -rule UNOPTFLAT -file "*/lowrisc_prim_fifo_0/rtl/prim_fifo_async_simple.sv"
+lint_off -rule UNOPTFLAT -file "*/rtl/ibex_id_stage.sv"
+lint_off -rule UNOPTFLAT -file "*/rtl/ibex_controller.sv"
+lint_off -rule UNOPTFLAT -file "*/rtl/system/dm_top.sv"
 lint_off -rule WIDTH -file "*pulp_riscv_dbg/src/dm_mem.sv"
 
 lint_off -rule IMPERFECTSCH -file "*prim_flop_2sync.sv"

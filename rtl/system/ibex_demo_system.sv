@@ -382,7 +382,8 @@ module ibex_demo_system #(
   );
 
   spi_top #(
-    .ClockFrequency ( ClockFrequency ),
+    .ClockFrequency ( ClockFrequency     ),
+    .BaudRate       ( ClockFrequency / 4 ),
     .CPOL           ( 0          ),
     .CPHA           ( 1          )
   ) u_spi (
