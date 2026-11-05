@@ -75,6 +75,14 @@ filesets:
       - rtl/fpga/rst_ctrl.sv
     file_type: systemVerilogSource
 
+  files_tangnano20k:
+    depend:
+      - lowrisc:ibex:rv_timer
+      - lowrisc:ibex:fpga_xilinx_shared
+    files:
+      - rtl/fpga/top_tangnano20k.sv
+    file_type: systemVerilogSource
+
   files_verilator:
     depend:
       - lowrisc:ibex:sim_shared
@@ -271,6 +279,14 @@ targets:
     parameters:
       - SRAMInitFile
       - PRIM_DEFAULT_IMPL=prim_pkg::ImplXilinx
+
+  synth_tangnano20k:
+    <<: *default_target
+    filesets_append:
+      - files_tangnano20k
+    toplevel: top_tangnano20k
+    parameters:
+      - PRIM_DEFAULT_IMPL=prim_pkg::ImplGeneric
 
   sim:
     <<: *default_target
