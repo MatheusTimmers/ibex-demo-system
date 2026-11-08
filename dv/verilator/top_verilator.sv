@@ -9,6 +9,8 @@ module top_verilator (input logic clk_i, rst_ni);
   localparam BaudRate       = 115_200;
 
   logic uart_sys_rx, uart_sys_tx;
+  logic [15:0] gp_o;
+  logic flash_miso;
 
   // Instantiating the Ibex Demo System.
   ibex_demo_system #(
@@ -35,8 +37,8 @@ module top_verilator (input logic clk_i, rst_ni);
     .td_o   (    ),
 
     // Remaining IO
-    .gp_i      (0),
-    .gp_o      ( ),
+    .gp_i      ({7'b0, flash_miso}),
+    .gp_o      (gp_o),
     .pwm_o     ( ),
     .spi_rx_i  (0),
     .spi_tx_o  ( ),
@@ -53,5 +55,16 @@ module top_verilator (input logic clk_i, rst_ni);
     .active (1'b1       ),
     .tx_o   (uart_sys_rx),
     .rx_i   (uart_sys_tx)
+  );
+
+  logic unused_gp_o;
+  assign unused_gp_o = ^{gp_o[15:11], gp_o[7:0]};
+
+  spi_flash_model u_flash (
+    .clk_i,
+    .cs_ni (~gp_o[8]),
+    .sck_i (gp_o[9]),
+    .mosi_i(gp_o[10]),
+    .miso_o(flash_miso)
   );
 endmodule

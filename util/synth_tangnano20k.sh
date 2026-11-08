@@ -45,6 +45,6 @@ sed -i -e '/reg show_mem_paths;/d' \
     --device GW2AR-LV18QN88C8/I7 --vopt family=GW2A-18C \
     --vopt cst="$ROOT/data/pins_tangnano20k.cst" --freq 27
 
-"$OSS/bin/gowin_pack" -d GW2A-18C -o "$TOP.fs" "$TOP.pnr.json"
+"$OSS/bin/gowin_pack" -d GW2A-18C --mspi_as_gpio -o "$TOP.fs" "$TOP.pnr.json"
 
 echo "$OUT/$TOP.fs"

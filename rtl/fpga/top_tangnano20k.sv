@@ -4,14 +4,20 @@ module top_tangnano20k #(
   input        IO_CLK,
   output [5:0] LED,
   input        UART_RX,
-  output       UART_TX
+  output       UART_TX,
+  output       FLASH_CS_N,
+  output       FLASH_SCK,
+  output       FLASH_MOSI,
+  input        FLASH_MISO,
+  output       FLASH_WP_N,
+  output       FLASH_HOLD_N
 );
 
   localparam int unsigned ClockFrequency = 27_000_000;
 
   logic [7:0] por_count = '0;
   logic       rst_sys_n;
-  logic [7:0] gp_o;
+  logic [15:0] gp_o;
 
   always_ff @(posedge IO_CLK) begin
     if (!por_count[7]) begin
@@ -23,7 +29,7 @@ module top_tangnano20k #(
 
   ibex_demo_system #(
     .GpiWidth       ( 8                   ),
-    .GpoWidth       ( 8                   ),
+    .GpoWidth       ( 16                  ),
     .PwmWidth       ( 1                   ),
     .ClockFrequency ( ClockFrequency      ),
     .RegFile        ( ibex_pkg::RegFileFF ),
@@ -31,7 +37,7 @@ module top_tangnano20k #(
   ) u_ibex_demo_system (
     .clk_sys_i (IO_CLK),
     .rst_sys_ni(rst_sys_n),
-    .gp_i      ('0),
+    .gp_i      ({7'b0, FLASH_MISO}),
     .uart_rx_i (UART_RX),
 
     .gp_o     (gp_o),
@@ -50,5 +56,11 @@ module top_tangnano20k #(
   );
 
   assign LED = ~gp_o[5:0];
+
+  assign FLASH_CS_N   = ~gp_o[8];
+  assign FLASH_SCK    = gp_o[9];
+  assign FLASH_MOSI   = gp_o[10];
+  assign FLASH_WP_N   = 1'b1;
+  assign FLASH_HOLD_N = 1'b1;
 
 endmodule
