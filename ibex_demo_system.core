@@ -55,6 +55,7 @@ filesets:
       - lowrisc:ibex:fpga_xilinx_shared
     files:
       - rtl/fpga/top_nexysa7.sv
+      - rtl/fpga/clkgen_nexysa7.sv
     file_type: systemVerilogSource
 
   files_xilinx_artys7:
